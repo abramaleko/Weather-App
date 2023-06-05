@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/provider/weatherProvider.dart';
+import 'package:weather_app/screens/headerForecast.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -88,113 +89,7 @@ class _HomePageState extends State<HomePage> {
                           : Container(
                               child: Column(
                                 children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: size.height * 0.03,
-                                    ),
-                                    child: Align(
-                                      child: Text(
-                                        weatherProv.currentArea,
-                                        style: GoogleFonts.questrial(
-                                          color: isDarkMode
-                                              ? Colors.white
-                                              : Colors.black,
-                                          fontSize: size.height * 0.06,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                   Padding(
-                                    padding: EdgeInsets.only(
-                                      top: size.height * 0.005,
-                                    ),
-                                    child: Align(
-                                      child: Text(
-                                        'Today', //day
-                                        style: GoogleFonts.questrial(
-                                          color: isDarkMode
-                                              ? Colors.white54
-                                              : Colors.black54,
-                                          fontSize: size.height * 0.025,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: size.height * 0.03,
-                                    ),
-                                    child: Align(
-                                      child: Text(
-                                          weatherProv.currentWeather['current_weather']['temperature'].toString() +'˚C', //curent temperature
-                                        style: GoogleFonts.questrial(
-                                          color: currTemp <= 0
-                                              ? Colors.blue
-                                              : currTemp > 0 && currTemp <= 15
-                                                  ? Colors.indigo
-                                                  : currTemp > 15 &&
-                                                          currTemp < 30
-                                                      ? Colors.deepPurple
-                                                      : Colors.pink,
-                                          fontSize: size.height * 0.13,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: size.width * 0.25),
-                                    child: Divider(
-                                      color: isDarkMode
-                                          ? Colors.white
-                                          : Colors.black,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: size.height * 0.005,
-                                    ),
-                                    child: Align(
-                                      child: Text(
-                                        weatherProv.getweatherCondition(), // weather
-                                        style: GoogleFonts.questrial(
-                                          color: isDarkMode
-                                              ? Colors.white54
-                                              : Colors.black54,
-                                          fontSize: size.height * 0.03,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: size.height * 0.03,
-                                      bottom: size.height * 0.01,
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                           weatherProv.currentCountry 
-                                           , // min temperature
-                                          style: GoogleFonts.questrial(
-                                            color: Colors.blueAccent,
-                                            fontSize: size.height * 0.022,
-                                          ),
-                                        ),
-                                       if(weatherProv.currentCity.isNotEmpty)
-                                       Text(
-                                         '- (${weatherProv.currentCity})',
-                                          style: GoogleFonts.questrial(
-                                            color: Colors.blueAccent,
-                                            fontSize: size.height * 0.022,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
+                                  HeaderForecast(size: size,brightness: brightness,isDarkMode: isDarkMode,),
                                   Padding(
                                     padding: EdgeInsets.symmetric(
                                       horizontal: size.width * 0.05,
