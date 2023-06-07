@@ -1,15 +1,23 @@
 import 'dart:convert';
-
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class WeatherProvider with ChangeNotifier {
   late Map weather;
   late Map currentWeather;
   late String currentCountry, currentArea, currentCity;
   bool isLoading = false;
+  late List hourlyTime,
+      hourlyTemp,
+      hourlyRain,
+      hourlyWindSpeed,
+      hourlyWeathercode;
+
+  late List dayDateForecast, dayDateWeather, dayDateMaxTemp, dayDateMinTemp;
 
   Future<Position> determinePosition() async {
     bool serviceEnabled;
@@ -60,7 +68,7 @@ class WeatherProvider with ChangeNotifier {
       position.longitude,
     );
     currentCountry = placemarks.first.country!;
-    currentArea = placemarks.first.administrativeArea!;
+    currentArea = placemarks.first.subLocality!;
     currentCity = placemarks.first.locality!;
 
     Uri weatherUrl = Uri(
@@ -70,8 +78,8 @@ class WeatherProvider with ChangeNotifier {
         queryParameters: {
           'longitude': position.longitude.toString(),
           'latitude': position.latitude.toString(),
-          'hourly': 'temperature_2m,rain,windspeed_10m',
-          'daily': 'weathercode',
+          'hourly': 'temperature_2m,rain,windspeed_10m,weathercode',
+          'daily': 'weathercode,temperature_2m_max,temperature_2m_min',
           'current_weather': 'true',
           'timezone': 'auto',
         });
@@ -79,12 +87,35 @@ class WeatherProvider with ChangeNotifier {
     try {
       final response = await http.get(weatherUrl);
       currentWeather = jsonDecode(response.body);
-      print(currentWeather);
+      getHourlyWeatherInfo();
+      get7DayWeather();
       isLoading = false;
     } catch (e) {
       print(e);
     }
     notifyListeners();
+  }
+
+  getHourlyWeatherInfo() {
+    /*
+       Filter houly weather by showing
+       - weather in the same day & month
+       - weather starting from the current hour untill the after hours
+     */
+    DateTime now = DateTime.now();
+    hourlyTime = currentWeather['hourly']['time']
+        .where((time) {
+          DateTime dateTime = DateTime.parse(time);
+          return ((dateTime.day == now.day && dateTime.month == now.month) &&
+              (dateTime.isAfter(now) || dateTime.isAtSameMomentAs(now)));
+        })
+        .map<String>((time) => DateFormat('HH:mm').format(DateTime.parse(time)))
+        .toList();
+
+    hourlyTemp = currentWeather['hourly']['temperature_2m'];
+    hourlyRain = currentWeather['hourly']['rain'];
+    hourlyWindSpeed = currentWeather['hourly']['windspeed_10m'];
+    hourlyWeathercode = currentWeather['hourly']['weathercode'];
   }
 
   getweatherCondition() {
@@ -176,5 +207,72 @@ class WeatherProvider with ChangeNotifier {
     }
 
     return weatherConditon;
+  }
+
+  getWeatherCondition(index, option) {
+    var data;
+    if (option == 'hourly') {
+      data = hourlyWeathercode[index];
+    }
+    if (option == '7day') {
+      data = dayDateWeather[index];
+    }
+    IconData icon = FontAwesomeIcons.moon;
+    switch (data) {
+      case 0:
+      case 1:
+        icon = FontAwesomeIcons.sun;
+        break;
+      case 2:
+      case 3:
+      case 45:
+        icon = FontAwesomeIcons.cloud;
+        break;
+      case 48:
+        icon = FontAwesomeIcons.cloud;
+        break;
+      case 51:
+      case 55:
+        icon = FontAwesomeIcons.cloudRain;
+        break;
+      case 56:
+      case 80:
+      case 57:
+        icon = FontAwesomeIcons.cloudRain;
+        break;
+      case 61:
+      case 63:
+        icon = FontAwesomeIcons.snowflake;
+        break;
+      case 71:
+      case 73:
+      case 75:
+        break;
+      case 77:
+        icon = FontAwesomeIcons.snowflake;
+        break;
+      default:
+        icon = FontAwesomeIcons.cloud;
+    }
+
+    return icon;
+  }
+
+  get7DayWeather() {
+    DateTime now = DateTime.now();
+
+    //formats the dates to Monday,Tuesday,Wenesday ....
+    dayDateForecast = currentWeather['daily']['time'].map((dateString) {
+      DateTime date = DateTime.parse(dateString);
+      String dayName = DateFormat('EEEE').format(date);
+
+      dayName == DateFormat('EEEE').format(now) ? dayName = 'Today' : '';
+
+      return dayName;
+    }).toList();
+
+    dayDateWeather = currentWeather['daily']['weathercode'];
+    dayDateMaxTemp = currentWeather['daily']['temperature_2m_max'];
+    dayDateMinTemp = currentWeather['daily']['temperature_2m_min'];
   }
 }
