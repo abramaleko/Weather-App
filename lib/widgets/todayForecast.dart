@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import '../provider/weatherProvider.dart';
 // import 'package:provider/provider.dart';
 // import 'package:weather_app/provider/weatherProvider.dart';
 // import 'package:weather_app/widgets/headerForecast.dart';
@@ -19,6 +21,7 @@ class TodayForecast extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   final weatherProv = Provider.of<WeatherProvider>(context, listen: false);
     return Column(
       children: [
         Padding(
@@ -59,97 +62,16 @@ class TodayForecast extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: [
-                        //TODO: change weather forecast from local to api get
-                        buildForecastToday(
-                          "Now", //hour
-                          27, //temperature to change
-                          20, //wind (km/h)
-                          0, //rain chance (%)
-                          FontAwesomeIcons.sun, //weather icon
-                          size,
-                          isDarkMode,
-                        ),
-                        buildForecastToday(
-                          "15:00",
-                          1,
-                          10,
-                          40,
-                          FontAwesomeIcons.cloud,
-                          size,
-                          isDarkMode,
-                        ),
-                        buildForecastToday(
-                          "16:00",
-                          0,
-                          25,
-                          80,
-                          FontAwesomeIcons.cloudRain,
-                          size,
-                          isDarkMode,
-                        ),
-                        buildForecastToday(
-                          "17:00",
-                          -2,
-                          28,
-                          60,
-                          FontAwesomeIcons.snowflake,
-                          size,
-                          isDarkMode,
-                        ),
-                        buildForecastToday(
-                          "18:00",
-                          -5,
-                          13,
-                          40,
-                          FontAwesomeIcons.cloudMoon,
-                          size,
-                          isDarkMode,
-                        ),
-                        buildForecastToday(
-                          "19:00",
-                          -8,
-                          9,
-                          60,
-                          FontAwesomeIcons.snowflake,
-                          size,
-                          isDarkMode,
-                        ),
-                        buildForecastToday(
-                          "20:00",
-                          -13,
-                          25,
-                          50,
-                          FontAwesomeIcons.snowflake,
-                          size,
-                          isDarkMode,
-                        ),
-                        buildForecastToday(
-                          "21:00",
-                          -14,
-                          12,
-                          40,
-                          FontAwesomeIcons.cloudMoon,
-                          size,
-                          isDarkMode,
-                        ),
-                        buildForecastToday(
-                          "22:00",
-                          -15,
-                          1,
-                          30,
-                          FontAwesomeIcons.moon,
-                          size,
-                          isDarkMode,
-                        ),
-                        buildForecastToday(
-                          "23:00",
-                          -15,
-                          15,
-                          20,
-                          FontAwesomeIcons.moon,
-                          size,
-                          isDarkMode,
-                        ),
+                          for (var entry in weatherProv.hourlyTime.asMap().entries)
+                            buildForecastToday(
+                               weatherProv.hourlyTime[entry.key], //hour
+                              weatherProv.hourlyTemp[entry.key], //temperature to change
+                              weatherProv.hourlyWindSpeed[entry.key], //wind (km/h)
+                               weatherProv.hourlyRain[entry.key], //rain chance (%)
+                               weatherProv.getHourlyWeatherCondition(entry.key), //weather icon
+                              size,
+                              isDarkMode,
+                            ),
                       ],
                     ),
                   ),
@@ -162,7 +84,7 @@ class TodayForecast extends StatelessWidget {
     );
   }
 
-  Widget buildForecastToday(String time, int temp, int wind, int rainChance,
+  Widget buildForecastToday(String time, double temp, double wind, double rainChance,
       IconData weatherIcon, size, bool isDarkMode) {
     return Padding(
       padding: EdgeInsets.all(size.width * 0.025),
@@ -232,7 +154,7 @@ class TodayForecast extends StatelessWidget {
             ],
           ),
           Text(
-            '$rainChance %',
+            '$rainChance mm',
             style: GoogleFonts.questrial(
               color: Colors.blue,
               fontSize: size.height * 0.02,
