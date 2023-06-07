@@ -29,10 +29,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    String cityName = "Katowice"; //city name
-    int currTemp = 30; // current temperature
-    int maxTemp = 30; // today max temperature
-    int minTemp = 2; // today min temperature
     Size size = MediaQuery.of(context).size;
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isDarkMode = brightness == Brightness.dark;
@@ -55,29 +51,14 @@ class _HomePageState extends State<HomePage> {
                           vertical: size.height * 0.01,
                           horizontal: size.width * 0.05,
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            FaIcon(
-                              FontAwesomeIcons.bars,
-                              color: isDarkMode ? Colors.white : Colors.black,
-                            ),
-                            Align(
-                              child: Text(
-                                'Weather App', //TODO: change app name
-                                style: GoogleFonts.questrial(
-                                  color: isDarkMode
-                                      ? Colors.white
-                                      : const Color(0xff1D1617),
-                                  fontSize: size.height * 0.02,
-                                ),
-                              ),
-                            ),
-                            FaIcon(
-                              FontAwesomeIcons.plusCircle,
-                              color: isDarkMode ? Colors.white : Colors.black,
-                            ),
-                          ],
+                        child: Text(
+                          'Weather App', //TODO: change app name
+                          style: GoogleFonts.questrial(
+                            color: isDarkMode
+                                ? Colors.white
+                                : const Color(0xff1D1617),
+                            fontSize: size.height * 0.021,
+                          ),
                         ),
                       ),
                       weatherProv.isLoading
@@ -91,9 +72,19 @@ class _HomePageState extends State<HomePage> {
                           : Container(
                               child: Column(
                                 children: [
-                                  HeaderForecast(size: size,brightness: brightness,isDarkMode: isDarkMode,),
-                                  TodayForecast(size: size, brightness: brightness, isDarkMode: isDarkMode),
-                                  SevenForecast(size: size, brightness: brightness, isDarkMode: isDarkMode)
+                                  HeaderForecast(
+                                    size: size,
+                                    brightness: brightness,
+                                    isDarkMode: isDarkMode,
+                                  ),
+                                  TodayForecast(
+                                      size: size,
+                                      brightness: brightness,
+                                      isDarkMode: isDarkMode),
+                                  SevenForecast(
+                                      size: size,
+                                      brightness: brightness,
+                                      isDarkMode: isDarkMode)
                                 ],
                               ),
                             )
@@ -107,5 +98,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
 }
