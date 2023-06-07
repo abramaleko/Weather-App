@@ -1,27 +1,18 @@
-# Flutter Weather App UI with darkmode support
-### Flutter 2.8.0 Null Safety
-Beautiful Weather App UI with support for dark mode. Created by Abraham Maleko
-## Please leave a ⭐ if you like it 💙
-## How it looks:
-#### Dark mode ⚫ :
-https://user-images.githubusercontent.com/81767518/146080310-d9596661-e0d4-4f92-8827-3ab1aaa850d6.mov
-
-<img width="398" alt="dark1" src="https://user-images.githubusercontent.com/81767518/146080332-0fb1c5d2-e4a6-4c7c-a2ea-21730b4cd9bb.png">
-<img width="398" alt="dark2" src="https://user-images.githubusercontent.com/81767518/146080336-fd798570-73b1-4936-bbce-7d4f2ada788b.png">
-
-
-#### Light mode ⚪ :
-https://user-images.githubusercontent.com/81767518/146080346-60fe3a5d-dc98-4091-8ce7-a0c1b103e8b4.mov
-
-<img width="398" alt="light1" src="https://user-images.githubusercontent.com/81767518/146080355-adbaa634-bb1e-43a9-96d2-f49910257f05.png">
-<img width="398" alt="light2" src="https://user-images.githubusercontent.com/81767518/146080358-d12efd1a-77b7-4fbd-b509-c0e151b42259.png">
-
-
+# Flutter Weather App 
+This is a basic weather application built using Flutter and open-mateo.com weather api
 ## Features:
 - Dark and Light Mode friendly
-- Scalable
-- Performance friendly
-- Today weather info
-- Forecast for today
+- Today Hourly Weather Forecast
 - 7-day forecast
-- Dynamic temperature color change based on temperature
+- Dynamic temperature color change based on temperature and location
+
+## How it looks:
+#### Dark mode ⚫ :
+<img width="300" style="margin-bottom:1rem;" alt="dark-mode" src="assets/screenshots/dark-mode.png">
+
+#### Light mode ⚪ :
+<img width="300" alt="light-mode" src="assets/screenshots/light-mode.png">
+
+## Please leave a ⭐ if you like it 💙
+
+
