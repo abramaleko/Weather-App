@@ -68,7 +68,7 @@ class TodayForecast extends StatelessWidget {
                               weatherProv.hourlyTemp[entry.key], //temperature to change
                               weatherProv.hourlyWindSpeed[entry.key], //wind (km/h)
                                weatherProv.hourlyRain[entry.key], //rain chance (%)
-                               weatherProv.getHourlyWeatherCondition(entry.key), //weather icon
+                               weatherProv.getWeatherCondition(entry.key,'hourly'), //weather icon
                               size,
                               isDarkMode,
                             ),
