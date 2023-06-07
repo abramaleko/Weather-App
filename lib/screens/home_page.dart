@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/provider/weatherProvider.dart';
 import 'package:weather_app/widgets/headerForecast.dart';
+import 'package:weather_app/widgets/sevenForecast.dart';
 import 'package:weather_app/widgets/todayForecast.dart';
 
 class HomePage extends StatefulWidget {
@@ -92,123 +93,7 @@ class _HomePageState extends State<HomePage> {
                                 children: [
                                   HeaderForecast(size: size,brightness: brightness,isDarkMode: isDarkMode,),
                                   TodayForecast(size: size, brightness: brightness, isDarkMode: isDarkMode),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: size.width * 0.05,
-                                      vertical: size.height * 0.02,
-                                    ),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(10),
-                                        ),
-                                        color: Colors.white.withOpacity(0.05),
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                top: size.height * 0.02,
-                                                left: size.width * 0.03,
-                                              ),
-                                              child: Text(
-                                                '7-day forecast',
-                                                style: GoogleFonts.questrial(
-                                                  color: isDarkMode
-                                                      ? Colors.white
-                                                      : Colors.black,
-                                                  fontSize: size.height * 0.025,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Divider(
-                                            color: isDarkMode
-                                                ? Colors.white
-                                                : Colors.black,
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.all(
-                                                size.width * 0.005),
-                                            child: Column(
-                                              children: [
-                                                //TODO: change weather forecast from local to api get
-                                                buildSevenDayForecast(
-                                                  "Today", //day
-                                                  minTemp, //min temperature
-                                                  maxTemp, //max temperature
-                                                  FontAwesomeIcons
-                                                      .cloud, //weather icon
-                                                  size,
-                                                  isDarkMode,
-                                                ),
-                                                buildSevenDayForecast(
-                                                  "Wed",
-                                                  -5,
-                                                  5,
-                                                  FontAwesomeIcons.sun,
-                                                  size,
-                                                  isDarkMode,
-                                                ),
-                                                buildSevenDayForecast(
-                                                  "Thu",
-                                                  -2,
-                                                  7,
-                                                  FontAwesomeIcons.cloudRain,
-                                                  size,
-                                                  isDarkMode,
-                                                ),
-                                                buildSevenDayForecast(
-                                                  "Fri",
-                                                  3,
-                                                  10,
-                                                  FontAwesomeIcons.sun,
-                                                  size,
-                                                  isDarkMode,
-                                                ),
-                                                buildSevenDayForecast(
-                                                  "San",
-                                                  5,
-                                                  12,
-                                                  FontAwesomeIcons.sun,
-                                                  size,
-                                                  isDarkMode,
-                                                ),
-                                                buildSevenDayForecast(
-                                                  "Sun",
-                                                  4,
-                                                  7,
-                                                  FontAwesomeIcons.cloud,
-                                                  size,
-                                                  isDarkMode,
-                                                ),
-                                                buildSevenDayForecast(
-                                                  "Mon",
-                                                  -2,
-                                                  1,
-                                                  FontAwesomeIcons.snowflake,
-                                                  size,
-                                                  isDarkMode,
-                                                ),
-                                                buildSevenDayForecast(
-                                                  "Tues",
-                                                  0,
-                                                  3,
-                                                  FontAwesomeIcons.cloudRain,
-                                                  size,
-                                                  isDarkMode,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                
+                                  SevenForecast(size: size, brightness: brightness, isDarkMode: isDarkMode)
                                 ],
                               ),
                             )
@@ -223,76 +108,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
-  Widget buildSevenDayForecast(String time, int minTemp, int maxTemp,
-      IconData weatherIcon, size, bool isDarkMode) {
-    return Padding(
-      padding: EdgeInsets.all(
-        size.height * 0.005,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: size.width * 0.02,
-                ),
-                child: Text(
-                  time,
-                  style: GoogleFonts.questrial(
-                    color: isDarkMode ? Colors.white : Colors.black,
-                    fontSize: size.height * 0.025,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: size.width * 0.25,
-                ),
-                child: FaIcon(
-                  weatherIcon,
-                  color: isDarkMode ? Colors.white : Colors.black,
-                  size: size.height * 0.03,
-                ),
-              ),
-              Align(
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    left: size.width * 0.15,
-                  ),
-                  child: Text(
-                    '$minTemp˚C',
-                    style: GoogleFonts.questrial(
-                      color: isDarkMode ? Colors.white38 : Colors.black38,
-                      fontSize: size.height * 0.025,
-                    ),
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: size.width * 0.05,
-                  ),
-                  child: Text(
-                    '$maxTemp˚C',
-                    style: GoogleFonts.questrial(
-                      color: isDarkMode ? Colors.white : Colors.black,
-                      fontSize: size.height * 0.025,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Divider(
-            color: isDarkMode ? Colors.white : Colors.black,
-          ),
-        ],
-      ),
-    );
-  }
 }
