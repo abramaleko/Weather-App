@@ -5,6 +5,7 @@ This is a basic weather application built using Flutter and open-mateo.com weath
 - Today Hourly Weather Forecast
 - 7-day forecast
 - Dynamic temperature color change based on temperature and location
+- On App Notification and background notification
 
 ## How it looks:
 #### Dark mode ⚫ :
@@ -12,6 +13,12 @@ This is a basic weather application built using Flutter and open-mateo.com weath
 
 #### Light mode ⚪ :
 <img width="300" alt="light-mode" src="assets/screenshots/light-mode.png">
+
+### In App Notification
+<img width="300" alt="light-mode" src="assets/screenshots/onAppNotification.png">
+
+### Background Notification
+<img width="300" alt="light-mode" src="assets/screenshots/backgroundNotifcation.png">
 
 ## Please leave a ⭐ if you like it 💙
 
