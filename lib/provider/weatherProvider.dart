@@ -106,11 +106,12 @@ class WeatherProvider with ChangeNotifier {
     hourlyTime = currentWeather['hourly']['time']
         .where((time) {
           DateTime dateTime = DateTime.parse(time);
-          return ((dateTime.day == now.day && dateTime.month == now.month) &&
-              (dateTime.isAfter(now) || dateTime.isAtSameMomentAs(now)));
+          return ((dateTime.day == now.day && dateTime.month == now.month));
         })
         .map<String>((time) => DateFormat('HH:mm').format(DateTime.parse(time)))
         .toList();
+
+    // print(hourlyTime);
 
     hourlyTemp = currentWeather['hourly']['temperature_2m'];
     hourlyRain = currentWeather['hourly']['rain'];
