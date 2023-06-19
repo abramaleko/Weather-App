@@ -9,6 +9,13 @@ import 'package:weather_app/screens/home_page.dart';
 import 'Model/pushNotification.dart';
 import 'firebase_options.dart';
 
+// Lisitnening to the background messages
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage? message) async {
+  if (message?.messageId != null) {
+    print("Handling a background message: ${message!.messageId}");
+  }
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -26,11 +33,8 @@ void main() async {
     sound: true,
   );
 
-// Lisitnening to the background messages
-  // Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  //   await Firebase.initializeApp();
-  //   print("Handling a background message: ${message.messageId}");
-  // }
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   // Listneing to the foreground messages
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
